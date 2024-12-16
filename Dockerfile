@@ -9,7 +9,6 @@ RUN npm install -g npm@latest
 RUN npm install -g serve
 
 COPY . .
-RUN npm update
 
 RUN npm update
 RUN npm run build
