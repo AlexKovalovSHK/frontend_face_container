@@ -1,18 +1,24 @@
-FROM node:lts
+FROM node:alpine AS dependencies
 
+# Устанавливаем рабочую директорию
 WORKDIR /app
 
+# Копируем package.json и package-lock.json
 COPY package*.json ./
 
-RUN rm -rf node_modules package-lock.json
-RUN npm install -g npm@latest
-RUN npm install -g serve
+# Устанавливаем зависимости
+RUN npm install --production
 
+# Копируем остальные файлы приложения
 COPY . .
 
-RUN npm update
+# Собираем приложение
 RUN npm run build
 
+# Шаг 2: Создаем легковесный образ на основе Nginx
+FROM nginx:alpine
+# Открываем порт
 EXPOSE 3003
 
-CMD ["serve", "-s", "dist", "-l", "3000"]
+# Запускаем Nginx
+CMD ["nginx", "-g", "daemon off;"]
