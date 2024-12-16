@@ -14,6 +14,6 @@ RUN npm update
 RUN npm update
 RUN npm run build
 
-EXPOSE 3000
+EXPOSE 3003
 
 CMD ["serve", "-s", "dist", "-l", "3000"]
